@@ -27,8 +27,14 @@ class City extends Model
 
 
     // Define a relationship to get the all Cities related to the region
-    public function cities(){
+    public function region(){
         return $this->belongsTo(Region::class);
+    }
+
+
+    public function getImageAttribute($value)
+    {
+        return $value ? asset('storage/' . $value) : null;
     }
     
 

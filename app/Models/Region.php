@@ -30,6 +30,12 @@ class Region extends Model
     public function cities(){
         return $this->hasMany(City::class);
     }
+
+
+    public function getImageAttribute($value)
+{
+    return $value ? asset('storage/' . $value) : null;
+}
     
 
 }
