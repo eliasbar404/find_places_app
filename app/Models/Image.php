@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Category extends Model
+
+class Image extends Model
 {
     use HasFactory;
 
     public $incrementing = false;  // Since you're using UUIDs, set incrementing to false
     protected $keyType = 'string';  // UUIDs are stored as strings
 
-    protected $fillable = ['id', 'name', 'parent_id'];
+    protected $fillable = ['id', 'place_id', 'image'];
 
     // Automatically generate UUIDs when creating a new category
     protected static function boot() {
@@ -26,18 +27,16 @@ class Category extends Model
     }
 
 
-    // Define a relationship to get the parent category
-    public function parent(){
-        return $this->belongsTo(Category::class, 'parent_id', 'id');
-    }
-    
-    // Define a relationship to get child categories
-    public function children(){
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+    // Define a relationship to get the all Cities related to the region
+    public function place(){
+        return $this->belongsTo(Place::class);
     }
 
-    public function places()
-    {
-        return $this->belongsToMany(Place::class, 'category_place');
-    }
+
+    public function getImageAttribute($value)
+{
+    return $value ? asset('storage/' . $value) : null;
+}
+    
+
 }
