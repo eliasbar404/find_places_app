@@ -12,18 +12,19 @@ class Category extends Model
 
     public $incrementing = false;  // Since you're using UUIDs, set incrementing to false
     protected $keyType = 'string';  // UUIDs are stored as strings
+        // Automatically generate UUIDs when creating a new category
+        protected static function boot() {
+            parent::boot();
+            static::creating(function ($model) {
+                if (!$model->getKey()) {
+                    $model->{$model->getKeyName()} = (string) Str::uuid();
+                }
+            });
+        }
 
     protected $fillable = ['id', 'name', 'parent_id'];
 
-    // Automatically generate UUIDs when creating a new category
-    protected static function boot() {
-        parent::boot();
-        static::creating(function ($model) {
-            if (!$model->getKey()) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
+
 
 
     // Define a relationship to get the parent category
