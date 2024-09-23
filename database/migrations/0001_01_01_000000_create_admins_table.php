@@ -24,7 +24,7 @@ return new class extends Migration
                 StatusEnum::UNACTIVE->value
             ])->default(StatusEnum::ACTIVE->value);
 
-            $table->string('avatar')->default('defaultAvatar.png');
+            $table->string('avatar_url')->default('defaultAvatar.png');
             $table->rememberToken();
             $table->timestamps();
         });

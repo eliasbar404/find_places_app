@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Navigation\MenuItem;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,6 +20,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+ 
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -54,6 +60,26 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->userMenuItems([
+                'profile' => MenuItem::make()
+                    ->label("profile")
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle'),
+                    
+                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
+
+            ])
+            ->plugins([
+                FilamentEditProfilePlugin::make()
+                ->setIcon("heroicon-s-pencil-square")
+                ->setSort(-1)
+                ->shouldRegisterNavigation(false)
+                ->shouldShowAvatarForm(
+                    value: true,
+                    directory: 'avatars', // image will be stored in 'storage/app/public/avatars
+                    rules: 'mimes:jpeg,png,jpg|max:1024' //only accept jpeg and png files with a maximum size of 1MB
+                )
             ]);
     }
 }

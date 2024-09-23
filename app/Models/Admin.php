@@ -7,12 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Support\Facades\Storage;
 
 
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements HasAvatar
 {
     use HasFactory, Notifiable ,HasRoles;
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        // return asset($this->avatar_url);
+        return $this->avatar_url ? Storage::url("$this->avatar_url") : Storage::url("$this->avatar_url");
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +32,7 @@ class Admin extends Authenticatable
         'email',
         'password',
         'status',
-        'avatar'
+        'avatar_url'
     ];
 
     /**
