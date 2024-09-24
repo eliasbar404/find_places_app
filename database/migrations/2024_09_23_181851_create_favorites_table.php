@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
 
-            $table->uuid('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->uuid('user_id')->nullable();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->uuid('place_id')->nullable();
+            $table->uuid('place_id');
             $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
             
             $table->timestamps();

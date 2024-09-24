@@ -25,7 +25,7 @@ class AdminResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return Auth::user()->hasRole('super_admin');
+        return Auth::guard('admin')->user()->hasRole('super_admin');
     }
 
 

@@ -30,8 +30,8 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('dashboard')
-            ->path('dashboard')
+            ->id('admin')
+            ->path('admin')
             ->login()
             ->colors([
                 'primary' => Color::Blue,
@@ -80,6 +80,6 @@ class AdminPanelProvider extends PanelProvider
                     directory: 'avatars', // image will be stored in 'storage/app/public/avatars
                     rules: 'mimes:jpeg,png,jpg|max:1024' //only accept jpeg and png files with a maximum size of 1MB
                 )
-            ]);
+            ])->authGuard('admin');
     }
 }
